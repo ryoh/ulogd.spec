@@ -2,7 +2,7 @@
 
 %global daemon_user      ulog
 %global daemon_group     ulog
-%global daemon_home      %{_datarootdir}/ulogd
+%global daemon_home      %{_datadir}/ulogd
 
 Name:           ulogd
 Version:        2.0.7
