@@ -1,0 +1,11 @@
+/var/log/ulogd/*.log /var/log/ulogd/*.json
+{
+    compress
+    missingok
+    notifempty
+    sharedscripts
+    create 0640 ulog adm
+    postrotate
+	/bin/systemctl reload ulogd
+    endscript
+}

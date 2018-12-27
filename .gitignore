@@ -1,3 +1,11 @@
+# rpmbuild
+BUILD/
+BUILDROOT/
+SRPMS/
+RPMS/
+SOURCES/*.bz2
+SOURCES/*.bz2.sig
+
 # Prerequisites
 *.d
 
