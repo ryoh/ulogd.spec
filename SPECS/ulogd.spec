@@ -10,6 +10,7 @@ License:        GPLv2+
 URL:            https://netfilter.org/projects/ulogd/
 Source0:        https://netfilter.org/projects/ulogd/files/%{name}-%{version}.tar.bz2
 Source1:        https://netfilter.org/projects/ulogd/files/%{name}-%{version}.tar.bz2.sig
+Source100:      ulogd.conf
 
 %systemd_requires
 BuildRequires:  libnfnetlink-devel
@@ -42,7 +43,11 @@ This includes per-packet logging of security violations, per-packet logging
 [[ -f "%{buildroot}" ]] && rm -rf %{buildroot}
 %make_install
 
-%__rm -f %{buildroot}/%{_libdir}/ulogd/*.la
+%__rm -f %{buildroot}%{_libdir}/ulogd/*.la
+
+# Set service files
+%__mkdir_p %{buildroot}/%{_sysconfdir}
+install -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/ulogd.conf
 
 %files
 %defattr(0644,root,root,0755)
@@ -50,6 +55,7 @@ This includes per-packet logging of security violations, per-packet logging
 %doc doc/mysql-ulogd2.sql doc/mysql-ulogd2-flat.sql
 %doc doc/pgsql-ulogd2.sql doc/pgsql-ulogd2-flat.sql
 %doc doc/sqlite3.table
+%{_sysconfdir}/ulogd.conf
 %{_sbindir}/ulogd
 %{_mandir}/man8/ulogd.8.gz
 %{_libdir}/ulogd/ulogd_filter_HWHDR.so
