@@ -59,6 +59,7 @@ This includes per-packet logging of security violations, per-packet logging
 %{__mkdir_p} %{buildroot}%{_localstatedir}/log/ulogd
 %{__install} -D -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/
 %{__install} -D -p -m 0644 %{SOURCE101} %{buildroot}%{_unitdir}/
+%{__install} -D -p -m 0644 %{SOURCE102} %{buildroot}%{_sysconfdir}/logrotate.d/ulogd
 
 
 %pre
@@ -90,9 +91,12 @@ exit 0
 %{_mandir}/man8/ulogd.8.gz
 
 %config(noreplace) %{_sysconfdir}/ulogd.conf
+%config(noreplace) %{_sysconfdir}/logrotate.d/ulogd
 %config(noreplace) %{_unitdir}/ulogd.service
-%attr(0755,root,root) %{_sbindir}/ulogd
+
 %attr(0755,ulog,ulog) %dir %{_localstatedir}/log/ulogd
+
+%attr(0755,root,root) %{_sbindir}/ulogd
 
 %{_libdir}/ulogd/ulogd_filter_HWHDR.so
 %{_libdir}/ulogd/ulogd_filter_IFINDEX.so

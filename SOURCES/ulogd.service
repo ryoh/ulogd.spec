@@ -7,6 +7,7 @@ Type=forking
 PIDFile=/run/ulogd.pid
 EnvironmentFile=-/etc/sysconfig/ulogd
 ExecStart=/usr/sbin/ulogd -d -u ulog -p /run/ulogd.pid
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target
