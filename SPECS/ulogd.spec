@@ -16,6 +16,7 @@ Source0:        https://netfilter.org/projects/ulogd/files/%{name}-%{version}.ta
 Source1:        https://netfilter.org/projects/ulogd/files/%{name}-%{version}.tar.bz2.sig
 Source100:      ulogd.conf
 Source101:      ulogd.service
+Source102:      ulogd.logrotate
 
 %{?systemd_requires}
 BuildRequires:  systemd
