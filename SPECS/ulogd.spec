@@ -36,17 +36,18 @@ This includes per-packet logging of security violations, per-packet logging
 %configure \
   --disable-nfacct
 
-%make_build
+%{make_build}
 
 
 %install
 [[ -f "%{buildroot}" ]] && rm -rf %{buildroot}
-%make_install
+%{make_install}
 
 %{__rm} -f %{buildroot}%{_libdir}/ulogd/*.la
 
 # Set service files
-%{__mkdir_p} %{buildroot}/%{_sysconfdir}
+%{__mkdir_p} %{buildroot}%{_sysconfdir}
+%{__mkdir_p} %{buildroot}%{_localstatedir}/log/ulogd
 %{__install} -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/
 
 %files
@@ -56,9 +57,11 @@ This includes per-packet logging of security violations, per-packet logging
 %doc doc/pgsql-ulogd2.sql doc/pgsql-ulogd2-flat.sql
 %doc doc/sqlite3.table
 %{_mandir}/man8/ulogd.8.gz
-%config(noreplace) %{_sysconfdir}/ulogd.conf
 
+%config(noreplace) %{_sysconfdir}/ulogd.conf
 %attr(0755,root,root) %{_sbindir}/ulogd
+%attr(0755,root,root) %dir %{_localstatedir}/log/ulogd
+
 %{_libdir}/ulogd/ulogd_filter_HWHDR.so
 %{_libdir}/ulogd/ulogd_filter_IFINDEX.so
 %{_libdir}/ulogd/ulogd_filter_IP2BIN.so
