@@ -1,3 +1,5 @@
+%global _hardened_build 1
+
 Name:           ulogd
 Version:        2.0.7
 Release:        1%{?dist}
@@ -26,7 +28,8 @@ Requires:       libmnl
 
 
 %build
-%configure
+%configure \
+  --disable-nfacct
 
 %make_build
 
