@@ -1,5 +1,9 @@
 %global _hardened_build 1
 
+%global daemon_user      ulog
+%global daemon_group     ulog
+%global daemon_home      %{_datarootdir}/ulogd
+
 Name:           ulogd
 Version:        2.0.7
 Release:        1%{?dist}
@@ -11,8 +15,12 @@ URL:            https://netfilter.org/projects/ulogd/
 Source0:        https://netfilter.org/projects/ulogd/files/%{name}-%{version}.tar.bz2
 Source1:        https://netfilter.org/projects/ulogd/files/%{name}-%{version}.tar.bz2.sig
 Source100:      ulogd.conf
+Source101:      ulogd.service
 
-%systemd_requires
+%{?systemd_requires}
+BuildRequires:  systemd
+Requires(pre):  shadow-utils
+
 BuildRequires:  libnfnetlink-devel
 BuildRequires:  libnetfilter_log-devel
 BuildRequires:  libnetfilter_conntrack-devel
@@ -47,8 +55,31 @@ This includes per-packet logging of security violations, per-packet logging
 
 # Set service files
 %{__mkdir_p} %{buildroot}%{_sysconfdir}
+%{__mkdir_p} %{buildroot}%{_unitdir}
 %{__mkdir_p} %{buildroot}%{_localstatedir}/log/ulogd
-%{__install} -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/
+%{__install} -D -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/
+%{__install} -D -p -m 0644 %{SOURCE101} %{buildroot}%{_unitdir}/
+
+
+%pre
+getent group  %{daemon_group} >/dev/null || groupadd -r %{daemon_group}
+getent passwd %{daemon_user}  >/dev/null || \
+  useradd -r -g %{daemon_group} -d %{daemon_home} -s /sbin/nologin \
+  -c "Netfilter userspace logging daemon user" %{daemon_user}
+exit 0
+
+
+%post
+%systemd_post %{name}.service
+
+
+%preun
+%systemd_preun %{name}.service
+
+
+%postun
+%systemd_postun %{name}.service
+
 
 %files
 %defattr(0644,root,root,0755)
@@ -59,8 +90,9 @@ This includes per-packet logging of security violations, per-packet logging
 %{_mandir}/man8/ulogd.8.gz
 
 %config(noreplace) %{_sysconfdir}/ulogd.conf
+%config(noreplace) %{_unitdir}/ulogd.service
 %attr(0755,root,root) %{_sbindir}/ulogd
-%attr(0755,root,root) %dir %{_localstatedir}/log/ulogd
+%attr(0755,ulog,ulog) %dir %{_localstatedir}/log/ulogd
 
 %{_libdir}/ulogd/ulogd_filter_HWHDR.so
 %{_libdir}/ulogd/ulogd_filter_IFINDEX.so
