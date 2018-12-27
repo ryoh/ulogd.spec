@@ -43,11 +43,11 @@ This includes per-packet logging of security violations, per-packet logging
 [[ -f "%{buildroot}" ]] && rm -rf %{buildroot}
 %make_install
 
-%__rm -f %{buildroot}%{_libdir}/ulogd/*.la
+%{__rm} -f %{buildroot}%{_libdir}/ulogd/*.la
 
 # Set service files
-%__mkdir_p %{buildroot}/%{_sysconfdir}
-install -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/ulogd.conf
+%{__mkdir_p} %{buildroot}/%{_sysconfdir}
+%{__install} -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/
 
 %files
 %defattr(0644,root,root,0755)
@@ -55,9 +55,10 @@ install -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/ulogd.conf
 %doc doc/mysql-ulogd2.sql doc/mysql-ulogd2-flat.sql
 %doc doc/pgsql-ulogd2.sql doc/pgsql-ulogd2-flat.sql
 %doc doc/sqlite3.table
-%config(noreplace) %{_sysconfdir}/ulogd.conf
-%{_sbindir}/ulogd
 %{_mandir}/man8/ulogd.8.gz
+%config(noreplace) %{_sysconfdir}/ulogd.conf
+
+%attr(0755,root,root) %{_sbindir}/ulogd
 %{_libdir}/ulogd/ulogd_filter_HWHDR.so
 %{_libdir}/ulogd/ulogd_filter_IFINDEX.so
 %{_libdir}/ulogd/ulogd_filter_IP2BIN.so
