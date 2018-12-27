@@ -55,7 +55,7 @@ install -p -m 0644 %{SOURCE100} %{buildroot}%{_sysconfdir}/ulogd.conf
 %doc doc/mysql-ulogd2.sql doc/mysql-ulogd2-flat.sql
 %doc doc/pgsql-ulogd2.sql doc/pgsql-ulogd2-flat.sql
 %doc doc/sqlite3.table
-%{_sysconfdir}/ulogd.conf
+%conf(noreplace) %{_sysconfdir}/ulogd.conf
 %{_sbindir}/ulogd
 %{_mandir}/man8/ulogd.8.gz
 %{_libdir}/ulogd/ulogd_filter_HWHDR.so
