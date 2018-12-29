@@ -4,6 +4,8 @@
 %global daemon_group     ulog
 %global daemon_home      %{_datadir}/ulogd
 
+%bcond_without json
+
 Name:           ulogd
 Version:        2.0.7
 Release:        1%{?dist}
@@ -37,6 +39,7 @@ This includes per-packet logging of security violations, per-packet logging
  for accounting, per-flow logging and flexible user-defined accounting.
 
 
+%if %{with json}
 %package json
 Release:        1%{?dist}
 Summary:        ulogd's JSON output module
@@ -45,6 +48,10 @@ Requires:       jansson
 
 %description json
 %{summary}
+
+%files json
+%{_libdir}/ulogd/ulogd_output_JSON.so
+%endif
 
 
 %prep
@@ -59,7 +66,7 @@ Requires:       jansson
   --with-sqlite \
   --with-dbi=%{_prefix} \
   --with-pcap \
-  --with-jansson \
+  %{?with_json:--with-jansson} \
 
 %{make_build}
 
