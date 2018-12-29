@@ -7,7 +7,7 @@
 
 Name:           ulogd
 Version:        2.0.7
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        ulogd is a userspace logging daemon for netfilter/iptables related logging.
 Group:          System Environment/Daemons
 
@@ -227,5 +227,7 @@ exit 0
 
 
 %changelog
+* Sun Dec 30 2018 Ryoh Kawai <kawairyoh@gmail.com> 2.0.7-3%{?dist}
+- Add extra modules
 * Thu Dec 27 2018 Ryoh Kawai <kawairyoh@gmail.com> 2.0.7-1%{?dist}
 - Initial RPM release
