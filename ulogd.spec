@@ -82,7 +82,7 @@ Requires:       sqlite
 %{summary}
 
 %files sqlite
-%{_libdir}/ulogd/ulogd_output_SQLITE.so
+%{_libdir}/ulogd/ulogd_output_SQLITE3.so
 %endif
 
 
