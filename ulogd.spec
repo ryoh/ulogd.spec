@@ -5,6 +5,7 @@
 %global daemon_home      %{_datadir}/ulogd
 
 %bcond_without json
+%bcond_without pcap
 
 Name:           ulogd
 Version:        2.0.7
@@ -54,6 +55,21 @@ Requires:       jansson
 %endif
 
 
+%if %{with pcap}
+%package pcap
+Release:        1%{?dist}
+Summary:        ulogd's PCAP output module
+BuildRequires:  libpcap-devel
+Requires:       libpcap
+
+%description pcap
+%{summary}
+
+%files pcap
+%{_libdir}/ulogd/ulogd_output_PCAP.so
+%endif
+
+
 %prep
 %setup -q
 
@@ -65,7 +81,7 @@ Requires:       jansson
   --with-mysql=%{_prefix} \
   --with-sqlite \
   --with-dbi=%{_prefix} \
-  --with-pcap \
+  %{?with_pcap:--with-pcap} \
   %{?with_json:--with-jansson} \
 
 %{make_build}
