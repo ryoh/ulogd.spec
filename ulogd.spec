@@ -4,9 +4,6 @@
 %global daemon_group     ulog
 %global daemon_home      %{_datadir}/ulogd
 
-%bcond_without json
-%bcond_without pcap
-%bcond_without sqlite
 
 Name:           ulogd
 Version:        2.0.7
@@ -41,6 +38,7 @@ This includes per-packet logging of security violations, per-packet logging
  for accounting, per-flow logging and flexible user-defined accounting.
 
 
+%bcond_without json
 %if %{with json}
 %package json
 Release:        1%{?dist}
@@ -56,6 +54,7 @@ Requires:       jansson
 %endif
 
 
+%bcond_without pcap
 %if %{with pcap}
 %package pcap
 Release:        1%{?dist}
@@ -71,6 +70,7 @@ Requires:       libpcap
 %endif
 
 
+%bcond_without sqlite
 %if %{with sqlite}
 %package sqlite
 Release:        1%{?dist}
