@@ -4,9 +4,10 @@
 %global daemon_group     ulog
 %global daemon_home      %{_datadir}/ulogd
 
+
 Name:           ulogd
 Version:        2.0.7
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        ulogd is a userspace logging daemon for netfilter/iptables related logging.
 Group:          System Environment/Daemons
 
@@ -37,13 +38,116 @@ This includes per-packet logging of security violations, per-packet logging
  for accounting, per-flow logging and flexible user-defined accounting.
 
 
+%bcond_without json
+%if %{with json}
+%package json
+Release:        1%{?dist}
+Summary:        ulogd's JSON output module
+BuildRequires:  jansson-devel
+Requires:       jansson
+
+%description json
+%{summary}
+
+%files json
+%{_libdir}/ulogd/ulogd_output_JSON.so
+%endif
+
+
+%bcond_without pcap
+%if %{with pcap}
+%package pcap
+Release:        1%{?dist}
+Summary:        ulogd's PCAP output module
+BuildRequires:  libpcap-devel
+Requires:       libpcap
+
+%description pcap
+%{summary}
+
+%files pcap
+%{_libdir}/ulogd/ulogd_output_PCAP.so
+%endif
+
+
+%bcond_without sqlite
+%if %{with sqlite}
+%package sqlite
+Release:        1%{?dist}
+Summary:        ulogd's SQLite output module
+BuildRequires:  sqlite-devel
+Requires:       sqlite
+
+%description sqlite
+%{summary}
+
+%files sqlite
+%{_libdir}/ulogd/ulogd_output_SQLITE3.so
+%endif
+
+
+%bcond_without mysql
+%if %{with mysql}
+%package mysql
+Release:        1%{?dist}
+Summary:        ulogd's MySQL output module
+BuildRequires:  mysql-devel
+Requires:       mysql-libs
+
+%description mysql
+%{summary}
+
+%files mysql
+%{_libdir}/ulogd/ulogd_output_MYSQL.so
+%endif
+
+
+%bcond_without pgsql
+%if %{with pgsql}
+%package pgsql
+Release:        1%{?dist}
+Summary:        ulogd's PostgreSQL output module
+BuildRequires:  postgresql-devel
+Requires:       postgresql-libs
+
+%description pgsql
+%{summary}
+
+%files pgsql
+%{_libdir}/ulogd/ulogd_output_PGSQL.so
+%endif
+
+
+%bcond_without dbi
+%if %{with dbi}
+%package dbi
+Release:        1%{?dist}
+Summary:        ulogd's DBI output module
+BuildRequires:  libdbi-devel
+Requires:       libdbi
+
+%description dbi
+%{summary}
+
+%files dbi
+%{_libdir}/ulogd/ulogd_output_DBI.so
+%endif
+
+
 %prep
 %setup -q
 
 
 %build
 %configure \
-  --disable-nfacct
+  --disable-nfacct \
+  %{?with_json:--with-jansson} \
+  %{?with_pcap:--with-pcap} \
+  %{?with_sqlite:--with-sqlite} \
+  %{?with_mysql:--with-mysql=%{_prefix}} \
+  %{?with_pgsql:--with-pgsql=%{_prefix}} \
+  %{?with_dbi:--with-dbi=%{_prefix}} \
+  %{?with_dbi:--with-dbi-lib=%{_libdir}} \
 
 %{make_build}
 
@@ -123,5 +227,7 @@ exit 0
 
 
 %changelog
+* Sun Dec 30 2018 Ryoh Kawai <kawairyoh@gmail.com> 2.0.7-3%{?dist}
+- Add extra modules
 * Thu Dec 27 2018 Ryoh Kawai <kawairyoh@gmail.com> 2.0.7-1%{?dist}
 - Initial RPM release
