@@ -5,6 +5,8 @@ SRPMS/
 RPMS/
 SOURCES/*.bz2
 SOURCES/*.bz2.sig
+*.bz2
+*.bz2.sig
 
 # Prerequisites
 *.d

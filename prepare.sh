@@ -6,7 +6,7 @@
 set -euo pipefail
 
 echo "Downloading files"
-spectool -g -R SPECS/ulogd.spec
+spectool -g -R ulogd.spec
 
 readonly RPMMACROS_FILE=".rpmmacros"
 readonly HOME_RPMMACROS="${HOME}/${RPMMACROS_FILE}"
