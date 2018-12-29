@@ -1,6 +1,9 @@
+<a href="https://copr.fedorainfracloud.org/coprs/ryoh/ulogd/package/ulogd/"><img src="https://copr.fedorainfracloud.org/coprs/ryoh/ulogd/package/ulogd/status_image/last_build.png" /></a>
+
+```
 Userspace logging daemon for netfilter/iptables
 
-Project Homepage: http://www.gnumonks.org/projects/ulogd
+Project Homepage: https://netfilter.org/projects/ulogd/index.html
 Mailinglist: http://lists.gnumonks.org/mailman/listinfo/ulogd/
 
 This is just a short README, pleaes see the more extensive documentation
@@ -111,3 +114,4 @@ Michael Stolovitzsky and Jozsef Kadlecsik.
 
 Credits to Rusty Russell, James Morris, Marc Boucher and all the other
 netfilter hackers.
+```
