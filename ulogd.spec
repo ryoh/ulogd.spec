@@ -37,13 +37,29 @@ This includes per-packet logging of security violations, per-packet logging
  for accounting, per-flow logging and flexible user-defined accounting.
 
 
+%package json
+Release:        1%{?dist}
+Summary:        ulogd's JSON output module
+BuildRequires:  jansson-devel
+Requires:       jansson
+
+%description json
+%{summary}
+
+
 %prep
 %setup -q
 
 
 %build
 %configure \
-  --disable-nfacct
+  --disable-nfacct \
+  --with-pgsql=%{_prefix} \
+  --with-mysql=%{_prefix} \
+  --with-sqlite \
+  --with-dbi=%{_prefix} \
+  --with-pcap \
+  --with-jansson \
 
 %{make_build}
 
