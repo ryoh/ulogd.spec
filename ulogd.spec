@@ -92,7 +92,7 @@ Requires:       sqlite
 Release:        1%{?dist}
 Summary:        ulogd's MySQL output module
 BuildRequires:  mysql-devel
-Requires:       mysql
+Requires:       mysql-libs
 
 %description mysql
 %{summary}
