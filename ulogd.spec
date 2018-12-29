@@ -6,6 +6,7 @@
 
 %bcond_without json
 %bcond_without pcap
+%bcond_without sqlite
 
 Name:           ulogd
 Version:        2.0.7
@@ -70,6 +71,21 @@ Requires:       libpcap
 %endif
 
 
+%if %{with sqlite}
+%package sqlite
+Release:        1%{?dist}
+Summary:        ulogd's SQLite output module
+BuildRequires:  sqlite-devel
+Requires:       sqlite
+
+%description sqlite
+%{summary}
+
+%files sqlite
+%{_libdir}/ulogd/ulogd_output_SQLITE.so
+%endif
+
+
 %prep
 %setup -q
 
@@ -79,10 +95,10 @@ Requires:       libpcap
   --disable-nfacct \
   --with-pgsql=%{_prefix} \
   --with-mysql=%{_prefix} \
-  --with-sqlite \
   --with-dbi=%{_prefix} \
-  %{?with_pcap:--with-pcap} \
   %{?with_json:--with-jansson} \
+  %{?with_pcap:--with-pcap} \
+  %{?with_sqlite:--with-sqlite} \
 
 %{make_build}
 
