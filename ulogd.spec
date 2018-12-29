@@ -118,6 +118,22 @@ Requires:       postgresql-libs
 %endif
 
 
+%bcond_without dbi
+%if %{with dbi}
+%package dbi
+Release:        1%{?dist}
+Summary:        ulogd's DBI output module
+BuildRequires:  libdbi-devel
+Requires:       libdbi
+
+%description dbi
+%{summary}
+
+%files dbi
+%{_libdir}/ulogd/ulogd_output_DBI.so
+%endif
+
+
 %prep
 %setup -q
 
@@ -125,12 +141,13 @@ Requires:       postgresql-libs
 %build
 %configure \
   --disable-nfacct \
-  --with-dbi=%{_prefix} \
   %{?with_json:--with-jansson} \
   %{?with_pcap:--with-pcap} \
   %{?with_sqlite:--with-sqlite} \
   %{?with_mysql:--with-mysql=%{_prefix}} \
   %{?with_pgsql:--with-pgsql=%{_prefix}} \
+  %{?with_dbi:--with-dbi=%{_prefix}} \
+  %{?with_dbi:--with-dbi-lib=%{_libdir}} \
 
 %{make_build}
 
