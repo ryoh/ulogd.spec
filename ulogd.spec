@@ -102,6 +102,22 @@ Requires:       mysql
 %endif
 
 
+%bcond_without pgsql
+%if %{with pgsql}
+%package pgsql
+Release:        1%{?dist}
+Summary:        ulogd's PostgreSQL output module
+BuildRequires:  postgresql-devel
+Requires:       postgresql-libs
+
+%description pgsql
+%{summary}
+
+%files pgsql
+%{_libdir}/ulogd/ulogd_output_PGSQL.so
+%endif
+
+
 %prep
 %setup -q
 
@@ -109,12 +125,12 @@ Requires:       mysql
 %build
 %configure \
   --disable-nfacct \
-  --with-pgsql=%{_prefix} \
   --with-dbi=%{_prefix} \
   %{?with_json:--with-jansson} \
   %{?with_pcap:--with-pcap} \
   %{?with_sqlite:--with-sqlite} \
   %{?with_mysql:--with-mysql=%{_prefix}} \
+  %{?with_pgsql:--with-pgsql=%{_prefix}} \
 
 %{make_build}
 
