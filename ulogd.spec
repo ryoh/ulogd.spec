@@ -86,6 +86,22 @@ Requires:       sqlite
 %endif
 
 
+%bcond_without mysql
+%if %{with mysql}
+%package mysql
+Release:        1%{?dist}
+Summary:        ulogd's MySQL output module
+BuildRequires:  mysql-devel
+Requires:       mysql
+
+%description mysql
+%{summary}
+
+%files mysql
+%{_libdir}/ulogd/ulogd_output_MYSQL.so
+%endif
+
+
 %prep
 %setup -q
 
@@ -94,11 +110,11 @@ Requires:       sqlite
 %configure \
   --disable-nfacct \
   --with-pgsql=%{_prefix} \
-  --with-mysql=%{_prefix} \
   --with-dbi=%{_prefix} \
   %{?with_json:--with-jansson} \
   %{?with_pcap:--with-pcap} \
   %{?with_sqlite:--with-sqlite} \
+  %{?with_mysql:--with-mysql=%{_prefix}} \
 
 %{make_build}
 
